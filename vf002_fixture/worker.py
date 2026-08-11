@@ -15,6 +15,6 @@ class PaymentWorker:
 
     def handle(self, command: PaymentCommand, attempt: int = 1) -> str:
         return self.billing_service.charge(
-            idempotency_key=command.request_id,
+            idempotency_key=f"{command.request_id}:{attempt}",
             amount=command.amount,
         )
